@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "categoria")
@@ -17,7 +19,9 @@ public class ModelCategoria implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
+
+	@NotBlank(message = "Nome deve ser Informado!")
+	@Size(min = 3, max = 50, message = "Nome deve conter entre 3 e 50 Caracteres!")
 	private String nome;
 
 	public Long getCodigo() {
