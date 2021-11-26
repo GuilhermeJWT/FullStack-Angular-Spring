@@ -2,7 +2,6 @@ package br.com.systemsgs.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.systemsgs.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.model.ModelCategoria;
 import br.com.systemsgs.repository.CategoriaRepository;
 
@@ -40,10 +40,18 @@ public class CategoriaController {
 		
 		return ResponseEntity.created(uri).body(categoriaSalva);
 	}
+
+	 @GetMapping("/{codigo}")
+	    public ModelCategoria recuperaPorCodigo(@PathVariable Long codigo){
+	        return categoriaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
+	    }
 	
-	@GetMapping(value = "/{codigo}")
-	public Optional<ModelCategoria> pesquisaPorId(@PathVariable Long codigo) {
-		return categoriaRepository.findById(codigo);
+	/*
+	@GetMapping("/{codigo}")
+	public ResponseEntity<ModelCategoria> buscarPeloCodigo(@PathVariable Long codigo) {
+		ModelCategoria categoria = categoriaRepository.findById(codigo);
+		 return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
 	}
+	*/
 
 }
