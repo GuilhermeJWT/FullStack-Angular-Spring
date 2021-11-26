@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class CategoriaController {
 	}
 	
 	@PostMapping(value = "/salvar")
-	public ResponseEntity<ModelCategoria> salvar(@RequestBody ModelCategoria modelCategoria, HttpServletResponse response) {
+	public ResponseEntity<ModelCategoria> salvar(@Valid @RequestBody ModelCategoria modelCategoria, HttpServletResponse response) {
 		ModelCategoria categoriaSalva = categoriaRepository.save(modelCategoria);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaSalva.getCodigo()).toUri();

@@ -1,4 +1,4 @@
-package br.com.systemsgs.exception;
+/*package br.com.systemsgs.exception;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,4 +75,4 @@ public class SystemsGSExceptionHandler extends ResponseEntityExceptionHandler {
 
 	}
 
-}
+}*/
