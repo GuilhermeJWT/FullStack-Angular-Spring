@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,10 +23,14 @@ import br.com.systemsgs.event.RecursoCriadoEvent;
 import br.com.systemsgs.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.model.ModelPessoa;
 import br.com.systemsgs.repository.PessoaRepository;
+import br.com.systemsgs.service.PessoaService;
 
 @RestController
 @RequestMapping(value = "/api/pessoas")
 public class PessoaController {
+	
+	@Autowired
+	private PessoaService pessoaService;
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
@@ -56,6 +61,13 @@ public class PessoaController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long codigo) {
 		 pessoaRepository.deleteById(codigo);
+	}
+	
+	@PutMapping(value = "/editar/{codigo}")
+	public ResponseEntity<ModelPessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody ModelPessoa modelPessoa){
+		ModelPessoa pessoaSalva = pessoaService.atualizar(codigo, modelPessoa);
+
+		return ResponseEntity.ok(pessoaSalva);
 	}
 	
 }
