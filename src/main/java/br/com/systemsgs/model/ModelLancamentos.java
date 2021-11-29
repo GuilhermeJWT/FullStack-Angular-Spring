@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import br.com.systemsgs.enums.TipoLancamento;
 
@@ -29,23 +31,30 @@ public class ModelLancamentos implements Serializable{
 	
 	private String descricao;
 	
+	@NotNull(message = "Data de Vencimento deve ser Informada!!!")
 	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
 	
+	@NotNull(message = "Data de Pagamento deve ser Informada!!!")
 	@Column(name = "data_pagamento")
 	private LocalDate dataPagamento;
 	
+	@NotNull(message = "Valor deve ser Informado!!!")
 	private BigDecimal valor;
 	
+	@Size(max = 200, message = "Observação deve conter no Máximo 200 Caracteres!!!")
 	private String observacao;
 	
+	@NotNull(message = "Tipo deve ser Informado!!!")
 	@Enumerated(EnumType.STRING)
 	private TipoLancamento tipo;
 	
+	@NotNull(message = "Categoria deve ser Informada!!!")
 	@ManyToOne
 	@JoinColumn(name = "codigo_categoria")
 	private ModelCategoria categoria;
 	
+	@NotNull(message = "Pessoa deve ser Informada!!!")
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
 	private ModelPessoa pessoa;

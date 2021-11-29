@@ -1,16 +1,30 @@
 package br.com.systemsgs.model;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Size;
 
 @Embeddable
 public class ModelEndereco {
 	
+	@Size(max = 30, message = "Logradouro deve conter no Máximo 30 Caracteres!!!")
 	private String logradouro;
+	
+	@Size(max = 30, message = "Número deve conter no Máximo 30 Caracteres!!!")
 	private String numero;
+	
+	@Size(max = 30, message = "Complemento deve conter no Máximo 30 Caracteres!!!")
 	private String complemento;
+	
+	@Size(max = 30, message = "Bairro deve conter no Máximo 30 Caracteres!!!")
 	private String bairro;
+	
+	@Size(max = 10, message = "Cep deve conter no Máximo 10 Caracteres!!!")
 	private String cep;
+	
+	@Size(max = 30, message = "Cidade deve conter no Máximo 30 Caracteres!!!")
 	private String cidade;
+	
+	@Size( max = 30, message = "Estado deve conter no Máximo 30 Caracteres!!!")
 	private String estado;
 	
 	public String getLogradouro() {
