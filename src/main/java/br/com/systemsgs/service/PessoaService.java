@@ -29,12 +29,12 @@ public class PessoaService {
 		pessoaRepository.save(pessoalSalva);
 	}
 	private ModelPessoa buscarPessoaPeloCodigo(Long codigo) {
-		ModelPessoa pessoalSalva = pessoaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
+		ModelPessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
 		
-		if (pessoalSalva == null) {
+		if (pessoaSalva == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		return pessoalSalva;
+		return pessoaSalva;
 	}
 
 }
