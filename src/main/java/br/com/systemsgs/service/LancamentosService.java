@@ -55,5 +55,9 @@ public class LancamentosService {
 	public List<ModelLancamentos> filtrarLancamento(LancamentoFilter lancamentoFilter) {
 		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
+
+	public void removeLancamento(Long codigo) {
+		lancamentoRepository.deleteById(codigo);
+	}
 	
 }
