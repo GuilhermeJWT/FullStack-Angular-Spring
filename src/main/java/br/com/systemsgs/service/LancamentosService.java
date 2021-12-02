@@ -7,14 +7,15 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.systemsgs.event.RecursoCriadoEvent;
+import br.com.systemsgs.exception.PessoaInexistenteOuInativaException;
 import br.com.systemsgs.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.model.ModelLancamentos;
+import br.com.systemsgs.model.ModelPessoa;
 import br.com.systemsgs.repository.LancamentoRepository;
+import br.com.systemsgs.repository.PessoaRepository;
 
 @Service
 public class LancamentosService {
@@ -25,13 +26,21 @@ public class LancamentosService {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
+	@Autowired
+	private PessoaRepository pessoaRepository;
+	
 	@Transactional
 	public ModelLancamentos salvarLancamento(ModelLancamentos modelLancamentos, HttpServletResponse response){
 		ModelLancamentos lancamentoSalvo = lancamentoRepository.save(modelLancamentos);
+		ModelPessoa modelPessoa = pessoaRepository.findById(modelLancamentos.getPessoa().getCodigo()).orElseThrow(() -> new RecursoNaoEncontradoException());
+		
+		if(modelLancamentos == null || modelPessoa.isInativo()) {
+			throw new PessoaInexistenteOuInativaException();
+		}
 		
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamentoSalvo.getCodigo()));
 		
-		return lancamentoSalvo;
+		return lancamentoRepository.save(lancamentoSalvo);
 	}
 	
 	public List<ModelLancamentos> listaLancamentos(){

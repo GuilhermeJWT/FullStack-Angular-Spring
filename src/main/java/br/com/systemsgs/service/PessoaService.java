@@ -28,6 +28,7 @@ public class PessoaService {
 		pessoalSalva.setAtivo(ativo);
 		pessoaRepository.save(pessoalSalva);
 	}
+	
 	private ModelPessoa buscarPessoaPeloCodigo(Long codigo) {
 		ModelPessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
 		

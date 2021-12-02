@@ -7,5 +7,5 @@ import br.com.systemsgs.model.ModelPessoa;
 
 @Repository
 public interface PessoaRepository extends JpaRepository<ModelPessoa, Long>{
-
+	
 }

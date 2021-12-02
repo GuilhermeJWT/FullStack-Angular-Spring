@@ -35,7 +35,6 @@ public class ModelLancamentos implements Serializable{
 	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
 	
-	@NotNull(message = "Data de Pagamento deve ser Informada!!!")
 	@Column(name = "data_pagamento")
 	private LocalDate dataPagamento;
 	

@@ -42,5 +42,7 @@ public class LancamentoController {
 		ModelLancamentos lancamento = lancamentoService.pesquisaPorCodigo(codigo);
 		return lancamento != null ? ResponseEntity.ok(lancamento) : ResponseEntity.notFound().build();
 	}
+	
+	
 
 }
