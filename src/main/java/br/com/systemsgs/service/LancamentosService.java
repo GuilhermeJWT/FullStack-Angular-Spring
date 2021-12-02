@@ -16,6 +16,7 @@ import br.com.systemsgs.model.ModelLancamentos;
 import br.com.systemsgs.model.ModelPessoa;
 import br.com.systemsgs.repository.LancamentoRepository;
 import br.com.systemsgs.repository.PessoaRepository;
+import br.com.systemsgs.repository.filter.LancamentoFilter;
 
 @Service
 public class LancamentosService {
@@ -49,6 +50,10 @@ public class LancamentosService {
 	
 	public ModelLancamentos pesquisaPorCodigo(Long codigo) {
 		return lancamentoRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
+	}
+
+	public List<ModelLancamentos> filtrarLancamento(LancamentoFilter lancamentoFilter) {
+		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
 	
 }

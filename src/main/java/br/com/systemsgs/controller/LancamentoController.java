@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.model.ModelLancamentos;
+import br.com.systemsgs.repository.filter.LancamentoFilter;
 import br.com.systemsgs.service.LancamentosService;
 
 @RestController
@@ -33,8 +34,8 @@ public class LancamentoController {
 	}
 
 	@GetMapping(value = "/listar")
-	public List<ModelLancamentos> listar(){
-		return lancamentoService.listaLancamentos();
+	public List<ModelLancamentos> pesquisar(LancamentoFilter lancamentoFilter){
+		return lancamentoService.filtrarLancamento(lancamentoFilter);
 	}
 
 	@GetMapping(value = "/{codigo}")
