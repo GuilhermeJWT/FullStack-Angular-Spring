@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,8 +38,8 @@ public class LancamentoController {
 	}
 
 	@GetMapping(value = "/listar")
-	public List<ModelLancamentos> pesquisar(LancamentoFilter lancamentoFilter){
-		return lancamentoService.filtrarLancamento(lancamentoFilter);
+	public Page<ModelLancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoService.filtrarLancamento(lancamentoFilter, pageable);
 	}
 
 	@GetMapping(value = "/{codigo}")

@@ -1,12 +1,13 @@
 package br.com.systemsgs.repository.lancamento;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import br.com.systemsgs.model.ModelLancamentos;
 import br.com.systemsgs.repository.filter.LancamentoFilter;
 
 public interface LancamentoRepositoryQuery {
 	
-	public List<ModelLancamentos> filtrar(LancamentoFilter lancamentoFilter);
+	Page<ModelLancamentos> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable);
 
 }

@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.systemsgs.event.RecursoCriadoEvent;
@@ -23,41 +25,42 @@ public class LancamentosService {
 
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
-	
+
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
+
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Transactional
-	public ModelLancamentos salvarLancamento(ModelLancamentos modelLancamentos, HttpServletResponse response){
+	public ModelLancamentos salvarLancamento(ModelLancamentos modelLancamentos, HttpServletResponse response) {
 		ModelLancamentos lancamentoSalvo = lancamentoRepository.save(modelLancamentos);
-		ModelPessoa modelPessoa = pessoaRepository.findById(modelLancamentos.getPessoa().getCodigo()).orElseThrow(() -> new RecursoNaoEncontradoException());
-		
-		if(modelLancamentos == null || modelPessoa.isInativo()) {
+		ModelPessoa modelPessoa = pessoaRepository.findById(modelLancamentos.getPessoa().getCodigo())
+				.orElseThrow(() -> new RecursoNaoEncontradoException());
+
+		if (modelLancamentos == null || modelPessoa.isInativo()) {
 			throw new PessoaInexistenteOuInativaException();
 		}
-		
+
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamentoSalvo.getCodigo()));
-		
+
 		return lancamentoRepository.save(lancamentoSalvo);
 	}
-	
-	public List<ModelLancamentos> listaLancamentos(){
+
+	public List<ModelLancamentos> listaLancamentos() {
 		return lancamentoRepository.findAll();
 	}
-	
+
 	public ModelLancamentos pesquisaPorCodigo(Long codigo) {
 		return lancamentoRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
 	}
 
-	public List<ModelLancamentos> filtrarLancamento(LancamentoFilter lancamentoFilter) {
-		return lancamentoRepository.filtrar(lancamentoFilter);
+	public Page<ModelLancamentos> filtrarLancamento(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
 	}
 
 	public void removeLancamento(Long codigo) {
 		lancamentoRepository.deleteById(codigo);
 	}
-	
+
 }
