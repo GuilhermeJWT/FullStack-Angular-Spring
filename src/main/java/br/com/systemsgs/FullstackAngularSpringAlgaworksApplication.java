@@ -10,4 +10,5 @@ public class FullstackAngularSpringAlgaworksApplication {
 		SpringApplication.run(FullstackAngularSpringAlgaworksApplication.class, args);
 	}
 
+
 }
