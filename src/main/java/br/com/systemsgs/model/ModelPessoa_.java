@@ -13,5 +13,10 @@ public abstract class ModelPessoa_ {
 	public static volatile SingularAttribute<ModelPessoa, ModelEndereco> endereco;
 	public static volatile SingularAttribute<ModelPessoa, String> nome;
 
+	public static final String CODIGO = "codigo";
+	public static final String ATIVO = "ativo";
+	public static final String ENDERECO = "endereco";
+	public static final String NOME = "nome";
+
 }
 

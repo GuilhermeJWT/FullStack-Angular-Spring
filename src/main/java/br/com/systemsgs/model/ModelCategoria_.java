@@ -11,5 +11,8 @@ public abstract class ModelCategoria_ {
 	public static volatile SingularAttribute<ModelCategoria, Long> codigo;
 	public static volatile SingularAttribute<ModelCategoria, String> nome;
 
+	public static final String CODIGO = "codigo";
+	public static final String NOME = "nome";
+
 }
 
