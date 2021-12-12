@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.model.ModelLancamentos;
 import br.com.systemsgs.repository.filter.LancamentoFilter;
+import br.com.systemsgs.repository.projection.ResumoLancamento;
 import br.com.systemsgs.service.LancamentosService;
 
 @RestController
@@ -41,6 +42,12 @@ public class LancamentoController {
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public Page<ModelLancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
 		return lancamentoService.filtrarLancamento(lancamentoFilter, pageable);
+	}
+	
+	@GetMapping(value = "/listar", params = "resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoService.resumir(lancamentoFilter, pageable);
 	}
 
 	@GetMapping(value = "/{codigo}")

@@ -16,9 +16,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import br.com.systemsgs.model.ModelCategoria_;
 import br.com.systemsgs.model.ModelLancamentos;
 import br.com.systemsgs.model.ModelLancamentos_;
+import br.com.systemsgs.model.ModelPessoa_;
 import br.com.systemsgs.repository.filter.LancamentoFilter;
+import br.com.systemsgs.repository.projection.ResumoLancamento;
 
 public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 	
@@ -37,6 +40,28 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		TypedQuery<ModelLancamentos> query = manager.createQuery(criteria);
 		adicionarRestricoesDaPaginacao(query, pageable);
 		
+		
+		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
+	}
+	
+	@Override
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<ResumoLancamento> criteria = builder.createQuery(ResumoLancamento.class);
+		Root<ModelLancamentos> root = criteria.from(ModelLancamentos.class);
+		
+		criteria.select(builder.construct(ResumoLancamento.class
+				, root.get(ModelLancamentos_.codigo), root.get(ModelLancamentos_.descricao)
+				, root.get(ModelLancamentos_.dataVencimento), root.get(ModelLancamentos_.dataPagamento)
+				, root.get(ModelLancamentos_.valor), root.get(ModelLancamentos_.tipo)
+				, root.get(ModelLancamentos_.categoria).get(ModelCategoria_.nome)
+				, root.get(ModelLancamentos_.pessoa).get(ModelPessoa_.nome)));
+		
+		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
+		criteria.where(predicates);
+		
+		TypedQuery<ResumoLancamento> query = manager.createQuery(criteria);
+		adicionarRestricoesDaPaginacao(query, pageable);
 		
 		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
 	}
@@ -61,7 +86,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 	
-	private void adicionarRestricoesDaPaginacao(TypedQuery<ModelLancamentos> query, Pageable pageable) {
+	private void adicionarRestricoesDaPaginacao(TypedQuery<?> query, Pageable pageable) {
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistroPorPagina = pageable.getPageSize();
 		int primeiroRegistroDaPagina = paginaAtual * totalRegistroPorPagina;

@@ -5,9 +5,12 @@ import org.springframework.data.domain.Pageable;
 
 import br.com.systemsgs.model.ModelLancamentos;
 import br.com.systemsgs.repository.filter.LancamentoFilter;
+import br.com.systemsgs.repository.projection.ResumoLancamento;
 
 public interface LancamentoRepositoryQuery {
 	
-	Page<ModelLancamentos> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable);
+	public Page<ModelLancamentos> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable);
+	
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable);
 
 }

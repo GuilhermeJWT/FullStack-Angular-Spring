@@ -19,6 +19,7 @@ import br.com.systemsgs.model.ModelPessoa;
 import br.com.systemsgs.repository.LancamentoRepository;
 import br.com.systemsgs.repository.PessoaRepository;
 import br.com.systemsgs.repository.filter.LancamentoFilter;
+import br.com.systemsgs.repository.projection.ResumoLancamento;
 
 @Service
 public class LancamentosService {
@@ -61,6 +62,10 @@ public class LancamentosService {
 
 	public void removeLancamento(Long codigo) {
 		lancamentoRepository.deleteById(codigo);
+	}
+
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 	}
 
 }
