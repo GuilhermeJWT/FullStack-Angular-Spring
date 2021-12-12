@@ -21,15 +21,5 @@ public abstract class ModelLancamentos_ {
 	public static volatile SingularAttribute<ModelLancamentos, BigDecimal> valor;
 	public static volatile SingularAttribute<ModelLancamentos, String> descricao;
 
-	public static final String CODIGO = "codigo";
-	public static final String OBSERVACAO = "observacao";
-	public static final String TIPO = "tipo";
-	public static final String DATA_PAGAMENTO = "dataPagamento";
-	public static final String PESSOA = "pessoa";
-	public static final String DATA_VENCIMENTO = "dataVencimento";
-	public static final String CATEGORIA = "categoria";
-	public static final String VALOR = "valor";
-	public static final String DESCRICAO = "descricao";
-
 }
 

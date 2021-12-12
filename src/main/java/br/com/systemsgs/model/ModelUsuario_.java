@@ -15,11 +15,5 @@ public abstract class ModelUsuario_ {
 	public static volatile SingularAttribute<ModelUsuario, String> nome;
 	public static volatile SingularAttribute<ModelUsuario, String> email;
 
-	public static final String SENHA = "senha";
-	public static final String PERMISSOES = "permissoes";
-	public static final String CODIGO = "codigo";
-	public static final String NOME = "nome";
-	public static final String EMAIL = "email";
-
 }
 
