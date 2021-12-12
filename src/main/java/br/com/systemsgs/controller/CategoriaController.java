@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,11 +33,13 @@ public class CategoriaController {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping(value = "/listar")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public List<ModelCategoria> listar(){
 		return categoriaRepository.findAll();
 	}
 	
 	@PostMapping(value = "/salvar")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
 	public ResponseEntity<ModelCategoria> salvar(@Valid @RequestBody ModelCategoria modelCategoria, HttpServletResponse response) {
 		ModelCategoria categoriaSalva = categoriaRepository.save(modelCategoria);
 		
@@ -45,10 +48,11 @@ public class CategoriaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
 	}
 
-	 @GetMapping("/{codigo}")
-	    public ModelCategoria recuperaPorCodigo(@PathVariable Long codigo){
-	        return categoriaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
-	    }
+	  @GetMapping("/{codigo}")
+	  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+	  public ModelCategoria recuperaPorCodigo(@PathVariable Long codigo){
+	      return categoriaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
+	  }
 	
 	/*
 	@GetMapping("/{codigo}")
