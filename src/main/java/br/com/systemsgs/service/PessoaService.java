@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import br.com.systemsgs.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.model.ModelPessoa;
 import br.com.systemsgs.repository.PessoaRepository;
 
@@ -29,13 +28,17 @@ public class PessoaService {
 		pessoaRepository.save(pessoalSalva);
 	}
 	
-	private ModelPessoa buscarPessoaPeloCodigo(Long codigo) {
-		ModelPessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
-		
+	public ModelPessoa buscarPessoaPeloCodigo(Long codigo) {
+		ModelPessoa pessoaSalva = pessoaRepository.findOne(codigo);
 		if (pessoaSalva == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
 		return pessoaSalva;
+	}
+
+	public ModelPessoa pesquisaPorId(Long codigo) {
+		ModelPessoa pessoa = pessoaRepository.findOne(codigo);
+		return pessoa;
 	}
 
 }

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.event.RecursoCriadoEvent;
-import br.com.systemsgs.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.model.ModelPessoa;
 import br.com.systemsgs.repository.PessoaRepository;
 import br.com.systemsgs.service.PessoaService;
@@ -53,14 +52,15 @@ public class PessoaController {
 	}
 	
 	@GetMapping(value = "/{codigo}")
-	 public ModelPessoa recuperaPorCodigo(@PathVariable Long codigo) {
-		return pessoaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
+	 public ResponseEntity<ModelPessoa> recuperaPorCodigo(@PathVariable Long codigo) {
+		ModelPessoa pessoaPesquisada = pessoaService.buscarPessoaPeloCodigo(codigo);
+		return pessoaPesquisada != null ? ResponseEntity.ok(pessoaPesquisada) : ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping(value = "/delete/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long codigo) {
-		 pessoaRepository.deleteById(codigo);
+		 pessoaRepository.delete(codigo);
 	}
 	
 	@PutMapping(value = "/editar/{codigo}")

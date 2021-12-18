@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.systemsgs.event.RecursoCriadoEvent;
 import br.com.systemsgs.exception.PessoaInexistenteOuInativaException;
-import br.com.systemsgs.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.model.ModelLancamentos;
 import br.com.systemsgs.model.ModelPessoa;
 import br.com.systemsgs.repository.LancamentoRepository;
@@ -36,8 +35,7 @@ public class LancamentosService {
 	@Transactional
 	public ModelLancamentos salvarLancamento(ModelLancamentos modelLancamentos, HttpServletResponse response) {
 		ModelLancamentos lancamentoSalvo = lancamentoRepository.save(modelLancamentos);
-		ModelPessoa modelPessoa = pessoaRepository.findById(modelLancamentos.getPessoa().getCodigo())
-				.orElseThrow(() -> new RecursoNaoEncontradoException());
+		ModelPessoa modelPessoa = pessoaRepository.findOne(modelLancamentos.getPessoa().getCodigo());
 
 		if (modelLancamentos == null || modelPessoa.isInativo()) {
 			throw new PessoaInexistenteOuInativaException();
@@ -53,7 +51,8 @@ public class LancamentosService {
 	}
 
 	public ModelLancamentos pesquisaPorCodigo(Long codigo) {
-		return lancamentoRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
+		ModelLancamentos lancamento = lancamentoRepository.findOne(codigo);
+		return lancamento;
 	}
 
 	public Page<ModelLancamentos> filtrarLancamento(LancamentoFilter lancamentoFilter, Pageable pageable) {
@@ -61,7 +60,7 @@ public class LancamentosService {
 	}
 
 	public void removeLancamento(Long codigo) {
-		lancamentoRepository.deleteById(codigo);
+		lancamentoRepository.delete(codigo);
 	}
 
 	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {

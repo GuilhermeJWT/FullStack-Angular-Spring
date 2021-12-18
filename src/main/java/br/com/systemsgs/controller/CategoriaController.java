@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.event.RecursoCriadoEvent;
-import br.com.systemsgs.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.model.ModelCategoria;
 import br.com.systemsgs.repository.CategoriaRepository;
+import br.com.systemsgs.service.CategoriaService;
 
 @RestController
 @RequestMapping(value = "/api/categorias")
 public class CategoriaController {
+
+	@Autowired
+	private CategoriaService categoriaService;
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
@@ -50,8 +53,9 @@ public class CategoriaController {
 
 	  @GetMapping("/{codigo}")
 	  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
-	  public ModelCategoria recuperaPorCodigo(@PathVariable Long codigo){
-	      return categoriaRepository.findById(codigo).orElseThrow(() -> new RecursoNaoEncontradoException());
+	  public ResponseEntity<ModelCategoria> recuperaPorCodigo(@PathVariable Long codigo){
+		  ModelCategoria categoriaPesquisada = categoriaService.pesquisaCategoria(codigo);
+	      return categoriaPesquisada != null ? ResponseEntity.ok(categoriaPesquisada) : ResponseEntity.notFound().build();
 	  }
 	
 	/*

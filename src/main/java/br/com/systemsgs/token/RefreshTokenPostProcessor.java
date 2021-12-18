@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import br.com.systemsgs.config.SystemsGsPropertyProfile;
 
-@SuppressWarnings("deprecation")
 @ControllerAdvice
 public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2AccessToken>{
 	

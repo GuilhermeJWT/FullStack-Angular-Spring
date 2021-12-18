@@ -12,8 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "usuario")
@@ -25,14 +26,14 @@ public class ModelUsuario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@NotBlank(message = "Nome do Usuário deve ser Informado!")
+	@NotEmpty(message = "Nome do Usuário deve ser Informado!")
 	private String nome;
 	
-	@NotBlank(message = "E-Mail deve ser Informado!")
+	@NotEmpty(message = "E-Mail deve ser Informado!")
 	@Email(message = "E-Mail Inválido!")
 	private String email;
 	
-	@NotBlank(message = "Senha do Usuário deve ser Informada!")
+	@NotEmpty(message = "Senha do Usuário deve ser Informada!")
 	private String senha;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
