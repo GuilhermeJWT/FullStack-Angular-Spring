@@ -33,7 +33,7 @@ public class CategoriaController {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping(value = "/listar")
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+	//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public List<ModelCategoria> listar(){
 		return categoriaRepository.findAll();
 	}
