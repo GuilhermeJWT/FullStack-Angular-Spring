@@ -66,7 +66,6 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
 	}
 
-	@SuppressWarnings("deprecation")
 	private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder, Root<ModelLancamentos> root) {
 		
 		List<Predicate> predicates = new ArrayList<>();
