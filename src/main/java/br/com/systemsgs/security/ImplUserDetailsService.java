@@ -27,7 +27,7 @@ public class ImplUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<ModelUsuario> usuarioOptinal = usuarioRepository.findByEmail(email);
 		ModelUsuario usuario =  usuarioOptinal.orElseThrow(() -> new UsernameNotFoundException("Usuário ou Senha Incorretos!"));
-		return new User(email, usuario.getSenha(), getPermissoes(usuario));
+		return new UsuarioSistema(usuario, getPermissoes(usuario));
 	}
 
 	private Collection<? extends GrantedAuthority> getPermissoes(ModelUsuario usuario) {
