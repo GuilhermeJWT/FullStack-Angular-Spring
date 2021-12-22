@@ -1,4 +1,4 @@
-package br.com.systemsgs.security;
+package br.com.systemsgs.config;
 
 import java.util.Arrays;
 
