@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -65,6 +66,36 @@ public class LancamentosService {
 
 	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		return lancamentoRepository.resumir(lancamentoFilter, pageable);
+	}
+
+	public ModelLancamentos atualizar(Long codigo, ModelLancamentos modelLancamentos) {
+		ModelLancamentos lancamentoSalvo = buscarLancamentoExistente(codigo);
+		if (!modelLancamentos.getPessoa().equals(lancamentoSalvo.getPessoa())) {
+			validarPessoa(modelLancamentos);
+		}
+
+		BeanUtils.copyProperties(modelLancamentos, lancamentoSalvo, "codigo");
+
+		return lancamentoRepository.save(lancamentoSalvo);
+	}
+	
+	private void validarPessoa(ModelLancamentos lancamento) {
+		ModelPessoa modelPessoa = null;
+		if (lancamento.getPessoa().getCodigo() != null) {
+			modelPessoa = pessoaRepository.findOne(lancamento.getPessoa().getCodigo());
+		}
+
+		if (modelPessoa == null || modelPessoa.isInativo()) {
+			throw new PessoaInexistenteOuInativaException();
+		}
+	}
+	
+	private ModelLancamentos buscarLancamentoExistente(Long codigo) {
+		ModelLancamentos lancamentoSalvo = lancamentoRepository.findOne(codigo);
+		if (lancamentoSalvo == null) {
+			throw new IllegalArgumentException();
+		}
+		return lancamentoSalvo;
 	}
 
 }

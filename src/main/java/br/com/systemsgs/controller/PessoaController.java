@@ -88,7 +88,7 @@ public class PessoaController {
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
 	public Page<ModelPessoa> pesquisarPorNome(@RequestParam(required = false, defaultValue = "%") String nome, Pageable pageable){
-		
+		return pessoaService.pesquisaPorNome(nome, pageable);
 	}
 	
 }
