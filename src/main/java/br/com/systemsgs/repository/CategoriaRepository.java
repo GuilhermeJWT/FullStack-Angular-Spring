@@ -12,4 +12,5 @@ public interface CategoriaRepository extends JpaRepository<ModelCategoria, Long>
 
 	Optional<ModelCategoria> findByCodigo(Long codigo);
 
+    ModelCategoria findById(Long codigo);
 }

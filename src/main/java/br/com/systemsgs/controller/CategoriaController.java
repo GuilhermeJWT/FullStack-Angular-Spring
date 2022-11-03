@@ -58,12 +58,12 @@ public class CategoriaController {
 	      return categoriaPesquisada != null ? ResponseEntity.ok(categoriaPesquisada) : ResponseEntity.notFound().build();
 	  }
 	
-	/*
+
 	@GetMapping("/{codigo}")
 	public ResponseEntity<ModelCategoria> buscarPeloCodigo(@PathVariable Long codigo) {
 		ModelCategoria categoria = categoriaRepository.findById(codigo);
 		 return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
 	}
-	*/
+
 
 }
